@@ -1,0 +1,30 @@
+import json
+
+def lambda_handler(event, context):
+    # Check the HTTP method
+    if event['httpMethod'] == 'GET':
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'message': 'Hello from AWS Lambda!',
+            })
+        }
+    
+    elif event['httpMethod'] == 'POST':
+        # Get data from request body
+        body = json.loads(event['body'])
+        name = body.get('name', 'guest')
+        
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'message': f'Hello {name}, your data has been received!',
+            })
+        }
+    
+    return {
+        'statusCode': 405,
+        'body': json.dumps({
+            'message': 'Method Not Allowed',
+        })
+    }
